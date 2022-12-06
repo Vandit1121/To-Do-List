@@ -1,11 +1,11 @@
 //jshint esversion:6
-
+require('dotenv').config()
 const express = require("express");
 const bodyParser = require("body-parser");
 const date = require(__dirname + "/date.js");
 const mongoose = require("mongoose");
 const _ = require("lodash");
-
+// console.log(process.env);
 
 const app = express();
 
@@ -15,8 +15,11 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb+srv://Vandit-Shah:vandit3804%40@to-do-list.yxlxjlz.mongodb.net/todolistDB", { useNewUrlParser: true }).then(() => {
-    console.log("connected to database");
+mongoose.connect(process.env.mongodbServer, { useNewUrlParser: true },function(err){
+    if(err)
+    console.log(err);
+    else
+    console.log("Successfully connected to Server.");
 });
 
 const itemSchema = new mongoose.Schema({
